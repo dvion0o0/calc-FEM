@@ -2,9 +2,19 @@ import React, { useState } from "react";
 import Header from "./components/Header";
 import { ThemeProvider } from "styled-components";
 import { theme1, theme2, theme3 } from "./Themes/theme";
+import { useEffect } from "react";
+
+console.log(typeof JSON.parse(localStorage.getItem("themeCalc")));
+
+const LocalStorage = () => {
+  if (localStorage.getItem("themeCalc")) {
+    return JSON.parse(localStorage.getItem("themeCalc"));
+  }
+  return 0;
+};
 
 function App() {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(LocalStorage());
   const [value, setValue] = useState("");
 
   const toggle = () => {
@@ -36,6 +46,10 @@ function App() {
       setValue("Error");
     }
   };
+
+  useEffect(() => {
+    localStorage.setItem("themeCalc", index);
+  }, [index]);
 
   return (
     <ThemeProvider theme={index === 0 ? theme1 : index === 1 ? theme2 : theme3}>
