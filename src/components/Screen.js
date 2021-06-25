@@ -24,5 +24,6 @@ const ScreenWrapper = styled.div`
     color: ${(props) => props.theme.screenText};
     font-size: 42px;
     pointer-events: none;
+    text-align: right;
   }
 `;
