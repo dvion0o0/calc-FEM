@@ -1,24 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Header from "./components/Header";
+import { ThemeProvider } from "styled-components";
+import { theme1, theme2, theme3 } from "./Themes/theme";
 
 function App() {
+  const [index, setIndex] = useState(0);
+  const [value, setValue] = useState("");
+
+  const toggle = () => {
+    setIndex((old) => {
+      if (old === 2) {
+        return 0;
+      } else {
+        return old + 1;
+      }
+    });
+  };
+
+  const keyClick = (e) => {
+    setValue(value.concat(e.target.name));
+  };
+
+  const reset = () => {
+    setValue("");
+  };
+
+  const Delete = () => {
+    setValue(value.slice(0, -1));
+  };
+
+  const calculate = () => {
+    try {
+      setValue(eval(value).toString());
+    } catch (error) {
+      setValue("Error");
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={index === 0 ? theme1 : index === 1 ? theme2 : theme3}>
+      <Header
+        toggle={toggle}
+        index={index}
+        value={value}
+        keyClick={keyClick}
+        reset={reset}
+        Delete={Delete}
+        calculate={calculate}
+      />
+    </ThemeProvider>
   );
 }
 
